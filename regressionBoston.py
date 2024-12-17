@@ -31,3 +31,24 @@ print(boston_df)
 boston_df["PRICE"] = target  # 종속변수인 주택가격을 PRICE 칼럼이름으로 추가
 print(boston_df)
 
+# 데이터 분리 -> 훈련데이터와 평가데이터로 7:3 비율로 분할
+Y = boston_df["PRICE"]  # 종속변수->주택가격
+X = boston_df.drop(["PRICE"], axis=1, inplace=False)  # inplace=True -> 원본 변경
+# 종속변수 PRICE 열을 제외한 나머지 독립변수 13개의 열을 X에 저장
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=0)  # random_state 값 seed 값
+# print(X_test)
+
+lr = LinearRegression()  # 선형회귀분석 모델 생성
+lr.fit(X_train, Y_train)
+
+Y_predict = lr.predict(X_test)  # 훈련데이터 셋으로 만든 회귀모델에 평가데이터로 예측 수행
+# print(Y_predict)
+
+mse = mean_squared_error(Y_test, Y_predict)  # MSE(Mean Squared Error)
+rmse = np.sqrt(mse)  # RMSE->MSE의 제곱근
+r2 = r2_score(Y_test, Y_predict)  # R Squared 값
+
+print(f"MSE : {mse:.3f}")
+print(f"RMSE : {rmse:.3f}")
+print(f"R2 Score : {r2:.3f}")
