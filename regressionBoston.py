@@ -45,6 +45,7 @@ lr.fit(X_train, Y_train)
 Y_predict = lr.predict(X_test)  # 훈련데이터 셋으로 만든 회귀모델에 평가데이터로 예측 수행
 # print(Y_predict)
 
+# 평가지표 MSE, RMSE, R2 값 구하기
 mse = mean_squared_error(Y_test, Y_predict)  # MSE(Mean Squared Error)
 rmse = np.sqrt(mse)  # RMSE->MSE의 제곱근
 r2 = r2_score(Y_test, Y_predict)  # R Squared 값
@@ -52,3 +53,26 @@ r2 = r2_score(Y_test, Y_predict)  # R Squared 값
 print(f"MSE : {mse:.3f}")
 print(f"RMSE : {rmse:.3f}")
 print(f"R2 Score : {r2:.3f}")
+
+# 회귀계수 구하기
+intercept = lr.intercept_  # 절편
+coef = lr.coef_  # 회귀계수
+
+print(f"Y 절편값 : {intercept}")
+print(f"회귀 계수 : {coef}")
+print(f"회귀식:Y(PRICE) = {intercept}+{coef[0]}X1+{coef[1]}X2+{coef[2]}X3+{coef[3]}X4+{coef[4]}X5+"
+      f"{coef[5]}X6+{coef[6]}X7+{coef[7]}X8+{coef[8]}X9+{coef[9]}X10+{coef[10]}X11+{coef[11]}X12+{coef[12]}X13")
+
+coef_X = pd.Series(data=coef, index=X.columns)
+print(coef_X)
+
+fig, axs = plt.subplots(figsize=(16, 16), nrows=5, ncols=3)  # 3*5=15개의 그래프(13개만 출력)
+
+x_features = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT"] # 그래프들의 이름
+
+for i, feature in enumerate(x_features):
+    row = int(i/3)# 행 인덱스(0, 1, 2, 3, 4)
+    col = i%3# 열 인덱스(0, 1, 2)
+    sns.regplot(x=feature, y="PRICE", data=boston_df, ax=axs[row][col])
+
+plt.show()
