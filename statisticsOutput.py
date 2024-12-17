@@ -66,7 +66,7 @@ print(f"회귀식:Y(PRICE) = {intercept}+{coef[0]}X1+{coef[1]}X2+{coef[2]}X3+{co
 coef_X = pd.Series(data=coef, index=X.columns)
 print(coef_X)
 
-print("=================계산을 통한 통계량 출력====================")
+print("=================통계량 출력 추가====================")
 
 import numpy as np
 params = np.append(lr.intercept_,lr.coef_) #회귀상수 + 회귀계수
